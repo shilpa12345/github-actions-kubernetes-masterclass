@@ -33,3 +33,27 @@ kind/
 
 # OS
 .DS_Store
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.pem
+*.key
+
+# Kubernetes
+kubeconfig
+*.kubeconfig
+
+# Binary files
+*.tar
+*.gz
+*.zip
+*.iso
+*.bin
+
+# Logs
+*.log
+
+# macOS
+.DS_Store
