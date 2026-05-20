@@ -1,0 +1,25 @@
+- name: Validate input action
+  ansible.builtin.fail:
+    msg: "Invalid make_action. Use 'up' or 'down'."
+  when: make_action not in ['up', 'down']
+
+
+- name: Clone or update git repository
+  ansible.builtin.git:
+    repo: "{{ git_repo_url }}"
+    dest: "{{ git_dest_path }}"
+    version: "{{ git_version }}"
+    force: "{{ force_clone }}"
+    update: yes
+
+
+- name: Run make command
+  ansible.builtin.shell: "make {{ make_action }}"
+  args:
+    chdir: "{{ git_dest_path }}"
+  register: make_output
+
+
+- name: Show output
+  ansible.builtin.debug:
+    var: make_output.stdout

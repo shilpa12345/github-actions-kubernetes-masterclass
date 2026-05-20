@@ -27,9 +27,6 @@ apply: ## Apply manifests and wait for rollouts
 	              -f k8s/10-mysql.yaml \
 	              -f k8s/20-backend.yaml \
 	              -f k8s/30-frontend.yaml
-	kubectl rollout status statefulset/mysql    -n $(NAMESPACE) --timeout=180s
-	kubectl rollout status deployment/backend   -n $(NAMESPACE) --timeout=120s
-	kubectl rollout status deployment/frontend  -n $(NAMESPACE) --timeout=60s
 
 down: ## Delete the cluster
 	kind delete cluster --name $(CLUSTER)
@@ -47,5 +44,3 @@ restart: ## Rebuild + reload images, roll backend + frontend
 	$(MAKE) build
 	$(MAKE) load
 	kubectl rollout restart deployment/backend deployment/frontend -n $(NAMESPACE)
-	kubectl rollout status  deployment/backend  -n $(NAMESPACE) --timeout=120s
-	kubectl rollout status  deployment/frontend -n $(NAMESPACE) --timeout=60s

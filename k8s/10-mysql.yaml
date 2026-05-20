@@ -114,14 +114,14 @@ spec:
           livenessProbe:
             tcpSocket:
               port: 3306
-            initialDelaySeconds: 30
-            periodSeconds: 10
+            initialDelaySeconds: 2
+            periodSeconds: 5
           readinessProbe:
             exec:
               command: [mysqladmin, ping, -h, localhost]
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 3
+            initialDelaySeconds: 2
+            periodSeconds: 2
+            timeoutSeconds: 2
       volumes:
         - name: init
           configMap:
@@ -133,4 +133,4 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 1Gi
+            storage: 300Mi

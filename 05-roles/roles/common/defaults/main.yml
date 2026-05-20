@@ -1,0 +1,10 @@
+---
+common_packages:
+  - vim
+  - tree
+  - htop
+  - curl
+  - wget
+  - make
+  - git
+common_timezone: UTC

@@ -1,0 +1,34 @@
+- name: Check if Docker already exists
+  command: docker --version
+  register: docker_check
+  ignore_errors: yes
+  changed_when: false
+
+- name: Show existing Docker version
+  debug:
+    var: docker_check.stdout
+  when: docker_check.rc == 0
+
+- name: Install Docker CE only if Docker is NOT installed
+  block:
+
+    - name: Add Docker CE repo
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+
+    - name: Install Docker CE
+      yum:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: present
+
+    - name: Start Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+  when: docker_check.rc != 0

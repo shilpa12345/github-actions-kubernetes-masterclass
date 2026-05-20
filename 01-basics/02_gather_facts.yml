@@ -1,0 +1,28 @@
+---
+# Playbook 2: Explore Ansible facts
+# Run: ansible-playbook modules/01-basics/02_gather_facts.yml
+
+- name: Explore Ansible facts
+  hosts: all
+
+  tasks:
+    - name: Print the OS distribution
+      debug:
+        msg: "This server runs {{ ansible_distribution }} {{ ansible_distribution_version }}"
+
+    - name: Print the IP address
+      debug:
+        msg: "IP address is {{ ansible_default_ipv4.address }}"
+
+    - name: Print total memory
+      debug:
+        msg: "Total RAM: {{ ansible_memtotal_mb }} MB"
+
+    - name: Print number of CPUs
+      debug:
+        msg: "CPUs: {{ ansible_processor_vcpus }}"
+
+    - name: Print all facts (careful — lots of output!)
+      debug:
+        var: ansible_facts
+      tags: all_facts

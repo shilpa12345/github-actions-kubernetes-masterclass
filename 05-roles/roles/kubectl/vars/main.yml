@@ -1,0 +1,3 @@
+---
+kubectl_version: "v1.27.4"
+# vars file for kubectl

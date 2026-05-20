@@ -16,10 +16,10 @@ services:
       - skillpulse
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 30s
+      interval: 2s
+      timeout: 2s
+      retries: 5
+      start_period: 2s
     
   backend:
     image: ${DOCKERHUB_USERNAME}/skillpulse-backend:latest

@@ -1,0 +1,44 @@
+---
+- name: Install dependencies on Debian/Ubuntu
+  apt:
+    name: curl
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Install dependencies on RHEL/CentOS
+  yum:
+    name: curl
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Check if KIND exists
+  command: kind version
+  register: kind_check
+  ignore_errors: yes
+  changed_when: false
+
+- name: Download KIND binary
+  shell: |
+    curl -fL --retry 5 --retry-delay 2 \
+    -o /tmp/kind \
+    https://kind.sigs.k8s.io/dl/{{ kind_version }}/kind-linux-amd64
+  when: kind_check.rc != 0
+
+- name: Ensure download succeeded
+  stat:
+    path: /tmp/kind
+  register: kind_bin
+
+- name: Fail if download failed
+  fail:
+    msg: "KIND download failed. Check network or URL."
+  when: kind_check.rc != 0 and not kind_bin.stat.exists
+
+- name: Install KIND binary
+  command: install -o root -g root -m 0755 /tmp/kind /usr/local/bin/kind
+  when: kind_check.rc != 0 and kind_bin.stat.exists
+
+- name: Verify KIND
+  command: kind version
+  changed_when: false

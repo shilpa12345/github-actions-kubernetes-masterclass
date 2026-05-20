@@ -1,0 +1,13 @@
+---
+base_packages:
+  - vim
+  - tree
+  - htop
+  - curl
+  - wget
+
+web_packages:
+  - nginx
+
+monitoring_packages:
+  - prometheus-node-exporter
